@@ -29,8 +29,12 @@ class OrderScreen extends StatefulWidget {
 }
 
 // STATE OBJECT
+enum SandwichSize { sixInch, footLong }
+
 class _OrderScreenState extends State<OrderScreen> {
   int _quantity = 0;
+  SandwichSize _selectedSize = SandwichSize.footLong;
+
   final TextEditingController _noteController = TextEditingController();
 
   @override
@@ -63,15 +67,36 @@ class _OrderScreenState extends State<OrderScreen> {
           children: <Widget>[
             OrderItemDisplay(
               _quantity,
-              'Footlong',
+              _selectedSize == SandwichSize.footLong ? 'Footlong' : 'Six Inch',
             ),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                StyledButton('Add', _increaseQuantity),
+                StyledButton('Add',
+                    _quantity == widget.maxQuantity ? null : _increaseQuantity),
                 const SizedBox(width: 32),
-                StyledButton('Remove', _decreaseQuantity),
+                StyledButton(
+                    'Remove', _quantity == 0 ? null : _decreaseQuantity),
+              ],
+            ),
+            const SizedBox(height: 24),
+            SegmentedButton<SandwichSize>(
+              selected: <SandwichSize>{_selectedSize},
+              onSelectionChanged: (Set<SandwichSize> newSelection) {
+                setState(() {
+                  _selectedSize = newSelection.first;
+                });
+              },
+              segments: const <ButtonSegment<SandwichSize>>[
+                ButtonSegment<SandwichSize>(
+                  value: SandwichSize.sixInch,
+                  label: Text('Six Inch'),
+                ),
+                ButtonSegment<SandwichSize>(
+                  value: SandwichSize.footLong,
+                  label: Text('Foot Long'),
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -106,7 +131,7 @@ class OrderItemDisplay extends StatelessWidget {
 
 class StyledButton extends StatelessWidget {
   final String text;
-  final VoidCallback callback;
+  final VoidCallback? callback;
 
   const StyledButton(this.text, this.callback, {super.key});
 
