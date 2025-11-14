@@ -41,10 +41,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _increaseQuantity() {
     if (_quantity < widget.maxQuantity) {
-      setState(() {
-        _quantity++;
-        print('Current quantity: $_quantity');
-      });
+      setState(() => _quantity++);
     }
   }
 
@@ -74,6 +71,10 @@ class _OrderScreenState extends State<OrderScreen> {
               children: [
                 ElevatedButton(
                   onPressed: _increaseQuantity,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.red,
+                  ),
                   child: const Text('Add'),
                 ),
                 const SizedBox(width: 16),
@@ -110,5 +111,24 @@ class OrderItemDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text('$quantity $itemType sandwich(es): ${'🥪' * quantity}');
+  }
+}
+
+class StyledButton extends StatelessWidget {
+  final String text;
+  final VoidCallback callback;
+
+  const StyledButton(this.text, this.callback, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: callback,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.red,
+      ),
+      child: Text(text),
+    );
   }
 }
