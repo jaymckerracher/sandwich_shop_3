@@ -41,7 +41,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _increaseQuantity() {
     if (_quantity < widget.maxQuantity) {
-      setState(() => _quantity++);
+      setState(() {
+        _quantity++;
+        print('Current quantity: $_quantity');
+      });
     }
   }
 
