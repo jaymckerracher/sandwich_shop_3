@@ -83,8 +83,9 @@ void main() {
     });
 
     testWidgets('switches from footlong to six-inch', (tester) async {
+      const Key testKey = Key('sandwichTypeSwitch');
       await tester.pumpWidget(const App());
-      await tester.tap(find.byType(Switch));
+      await tester.tap(find.byKey(testKey));
       await tester.pump();
       expect(find.text('0 white six-inch sandwich(es): '), findsOneWidget);
     });
