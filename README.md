@@ -1,76 +1,102 @@
-# Sandwich Shop
+# Sandwich Shop App
 
-This is a simple Flutter app that allows users to order sandwiches.
-The app is built using Flutter and Dart, and it is designed primarily to be run in a web
-browser.
+A simple Flutter application for placing sandwich orders, designed as a learning project. Users can select bread type, sandwich size, and quantity, and add notes to their order.
 
-## Install the essential tools
+## Features
 
-1. **Terminal**:
+- Select sandwich type (footlong or not)
+- Choose bread type (white, wheat, wholemeal)
+- Set sandwich quantity (with max limit)
+- Add order notes
+- Responsive UI with Material Design
+- State management using repository pattern
 
-    - **macOS** – use the built-in Terminal app by pressing **⌘ + Space**, typing **Terminal**, and pressing **Return**.
-    - **Windows** – open the start menu using the **Windows** key. Then enter **cmd** to open the **Command Prompt**. Alternatively, you can use **Windows PowerShell** or **Windows Terminal**.
+---
 
-2. **Git** – verify that you have `git` installed by entering `git --version`, in the terminal.
-    If this is missing, download the installer from [Git's official site](https://git-scm.com/downloads?utm_source=chatgpt.com).
+## Installation and Setup
 
-3. **Package managers**:
+### Prerequisites
 
-    - **Homebrew** (macOS) – verify that you have `brew` installed with `brew --version`; if missing, follow the instructions on the [Homebrew installation page](https://brew.sh/).
-    - **Chocolatey** (Windows) – verify that you have `choco` installed with `choco --version`; if missing, follow the instructions on the [Chocolatey installation page](https://chocolatey.org/install).
+- **OS:** macOS, Windows, or Linux
+- **Flutter SDK:** >=2.17.0 <4.0.0 ([Install Flutter](https://docs.flutter.dev/get-started/install))
+- **Dart SDK:** Included with Flutter
+- **Git:** For cloning the repository
 
-4. **Flutter SDK** – verify that you have `flutter` installed and it is working with `flutter doctor`; if missing, install it using your package manager:
-
-    - **macOS**: `brew install --cask flutter`
-    - **Windows**: `choco install flutter`
-
-5. **Visual Studio Code** – verify that you have `code` installed with `code --version`; if missing, use your package manager to install it:
-
-    - **macOS**: `brew install --cask visual-studio-code`
-    - **Windows**: `choco install vscode`
-
-## Get the code
-
-### If this is your first time working on this project
-
-Enter the following commands in your terminal to clone the repository and
-open it in Visual Studio Code.
-You may want to change directory (`cd`) to the directory where you want to clone the
-repository first.
+### Clone the Repository
 
 ```bash
-git clone --branch 3 https://github.com/manighahrmani/sandwich_shop
-cd sandwich_shop
-code .
+git clone https://github.com/jaymckerracher/sandwich_shop_3
+cd sandwich_shop_3
 ```
 
-### If you have already cloned the repository
-
-Enter the following commands in your terminal to switch to the correct branch.
-Remember to `cd` to the directory where you cloned the repository first.
-
-```bash
-git fetch origin
-git checkout 3
-```
-
-## Run the app
-
-Open the integrated terminal in Visual Studio Code by first opening the Command
-Palette with **⌘ + Shift + P** (macOS) or **Ctrl + Shift + P** (Windows) and
-typing **Terminal: Create New Terminal** then pressing **Enter**.
-
-In the terminal, run the following commands to install the dependencies and run
-the app in your web browser:
+### Install Dependencies
 
 ```bash
 flutter pub get
+```
+
+### Run the App
+
+```bash
 flutter run
 ```
 
-## Get support
+---
 
-Use [the dedicated Discord channel](https://discord.com/channels/760155974467059762/1370633732779933806)
-to ask your questions and get help from the community.
-Please provide as much context as possible, including the error messages you are seeing and
-screenshots (you can open Discord in your web browser).
+## Usage
+
+- Launch the app.
+- On the main screen, select your sandwich options:
+	- **Sandwich Type:** Toggle between footlong and regular.
+	- **Bread Type:** Choose from white, wheat, or wholemeal.
+	- **Quantity:** Use + and - buttons (up to the max allowed).
+	- **Notes:** Add any special instructions.
+- Press the order button to place your order.
+
+### Running Tests
+
+```bash
+flutter test
+```
+
+---
+
+## Project Structure
+
+```
+lib/
+	main.dart                # App entry point and main UI
+	repositories/
+		order_repository.dart  # Business logic for order state
+	views/
+		app_styles.dart        # App-wide text styles
+test/
+	repositories/
+		order_repository_test.dart # Unit tests for order logic
+```
+
+### Key Packages
+
+- `flutter`
+- `cupertino_icons`
+- `flutter_test` (dev)
+
+---
+
+## Known Issues / Future Improvements
+
+- No persistent storage for orders
+- No backend integration
+- UI is basic; could be improved with images and animations
+
+### Contribution Guidelines
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request
+
+---
+
+## Contact Information
+- Jay
