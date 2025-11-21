@@ -59,15 +59,29 @@ class _OrderScreenState extends State<OrderScreen> {
 
   VoidCallback? _getIncreaseCallback() {
     if (_orderRepository.canIncrement) {
-      return () => setState(_orderRepository.increment);
+      return () {
+        setState(() {
+          _orderRepository.increment();
+          _pricingRepository.quantity = _orderRepository.quantity;
+          _pricingRepository.updatePrice();
+        });
+      };
     }
+
     return null;
   }
 
   VoidCallback? _getDecreaseCallback() {
     if (_orderRepository.canDecrement) {
-      return () => setState(_orderRepository.decrement);
+      return () => {
+        setState(() {
+          _orderRepository.decrement();
+          _pricingRepository.quantity = _orderRepository.quantity;
+          _pricingRepository.updatePrice();
+        })
+      };
     }
+
     return null;
   }
 
@@ -107,6 +121,9 @@ class _OrderScreenState extends State<OrderScreen> {
       noteForDisplay = _notesController.text;
     }
 
+    String orderPrice =
+        'The total cost for this order is £${_pricingRepository.getPrice}';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -123,6 +140,10 @@ class _OrderScreenState extends State<OrderScreen> {
               itemType: sandwichType,
               breadType: _selectedBreadType,
               orderNote: noteForDisplay,
+            ),
+            Text(
+              orderPrice,
+              style: normalText,
             ),
             const SizedBox(height: 20),
             Row(
