@@ -10,6 +10,7 @@ void main() {
 
     test('price should be calculated correctly', () {
       final repository = PricingRepository(quantity: 4, isFootlong: true);
+      repository.updatePrice();
       expect(repository.price, 44);
     });
   });
