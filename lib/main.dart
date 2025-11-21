@@ -74,19 +74,23 @@ class _OrderScreenState extends State<OrderScreen> {
   VoidCallback? _getDecreaseCallback() {
     if (_orderRepository.canDecrement) {
       return () => {
-        setState(() {
-          _orderRepository.decrement();
-          _pricingRepository.quantity = _orderRepository.quantity;
-          _pricingRepository.updatePrice();
-        })
-      };
+            setState(() {
+              _orderRepository.decrement();
+              _pricingRepository.quantity = _orderRepository.quantity;
+              _pricingRepository.updatePrice();
+            })
+          };
     }
 
     return null;
   }
 
   void _onSandwichTypeChanged(bool value) {
-    setState(() => _isFootlong = value);
+    setState(() {
+      _isFootlong = value;
+      _pricingRepository.isFootlong = _isFootlong;
+      _pricingRepository.updatePrice();
+    });
   }
 
   void _onBreadTypeSelected(BreadType? value) {
