@@ -10,6 +10,7 @@ A simple Flutter application for placing sandwich orders, designed as a learning
 - Add order notes
 - Responsive UI with Material Design
 - State management using repository pattern
+- See key details about the order such as total price and number of sandwiches ordered
 
 ---
 
