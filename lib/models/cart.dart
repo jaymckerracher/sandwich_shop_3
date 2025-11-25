@@ -7,8 +7,10 @@ class Cart {
 
   List<Sandwich> get sandwiches => List.unmodifiable(_sandwiches);
 
-  void addSandwich(Sandwich sandwich) {
-    _sandwiches.add(sandwich);
+  void addSandwich(Sandwich sandwich, {int quantity = 1}) {
+    for (int i = 0; i < quantity; i++) {
+      _sandwiches.add(sandwich);
+    }
   }
 
   void removeSandwich(Sandwich sandwich) {
