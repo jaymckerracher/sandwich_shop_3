@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
-import 'package:sandwich_shop/repositories/pricing_repository.dart';
-
-enum BreadType { white, wheat, wholemeal }
+import 'package:sandwich_shop/models/sandwich.dart';
+import 'package:sandwich_shop/models/cart.dart';
 
 void main() {
   runApp(const App());
@@ -26,23 +25,19 @@ class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key, this.maxQuantity = 10});
 
   @override
-  State<OrderScreen> createState() {
-    return _OrderScreenState();
-  }
+  State<OrderScreen> createState() => _OrderScreenState();
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  late final OrderRepository _orderRepository;
   final TextEditingController _notesController = TextEditingController();
   bool _isFootlong = true;
   BreadType _selectedBreadType = BreadType.white;
-  late final PricingRepository _pricingRepository;
+  int _quantity = 0;
+  final Cart _cart = Cart();
 
   @override
   void initState() {
     super.initState();
-    _orderRepository = OrderRepository(maxQuantity: widget.maxQuantity);
-    _pricingRepository = PricingRepository();
     _notesController.addListener(() {
       setState(() {});
     });
@@ -55,15 +50,19 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   VoidCallback? _getIncreaseCallback() {
-    if (_orderRepository.canIncrement) {
-      return () => setState(_orderRepository.increment);
+    if (_quantity < widget.maxQuantity) {
+      return () => setState(() {
+            _quantity++;
+          });
     }
     return null;
   }
 
   VoidCallback? _getDecreaseCallback() {
-    if (_orderRepository.canDecrement) {
-      return () => setState(_orderRepository.decrement);
+    if (_quantity > 0) {
+      return () => setState(() {
+            _quantity--;
+          });
     }
     return null;
   }
@@ -79,35 +78,35 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   List<DropdownMenuEntry<BreadType>> _buildDropdownEntries() {
-    List<DropdownMenuEntry<BreadType>> entries = [];
-    for (BreadType bread in BreadType.values) {
-      DropdownMenuEntry<BreadType> newEntry = DropdownMenuEntry<BreadType>(
-        value: bread,
-        label: bread.name,
-      );
-      entries.add(newEntry);
-    }
-    return entries;
+    return BreadType.values
+        .map((bread) => DropdownMenuEntry<BreadType>(
+              value: bread,
+              label: bread.name,
+            ))
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final double totalPrice = _pricingRepository.calculatePrice(
-      quantity: _orderRepository.quantity,
-      isFootlong: _isFootlong,
-    );
-
-    String sandwichType = 'footlong';
-    if (!_isFootlong) {
-      sandwichType = 'six-inch';
+    // For this simple UI, we calculate price using Cart logic, but don't add sandwiches to the cart list
+    double totalPrice = 0.0;
+    if (_quantity > 0) {
+      // Simulate adding sandwiches to cart for price calculation
+      _cart.clear();
+      for (int i = 0; i < _quantity; i++) {
+        _cart.addSandwich(Sandwich(
+          type: SandwichType.veggieDelight, // or allow user to select
+          isFootlong: _isFootlong,
+          breadType: _selectedBreadType,
+        ));
+      }
+      totalPrice = _cart.totalPrice;
     }
 
-    String noteForDisplay;
-    if (_notesController.text.isEmpty) {
-      noteForDisplay = 'No notes added.';
-    } else {
-      noteForDisplay = _notesController.text;
-    }
+    String sandwichType = _isFootlong ? 'footlong' : 'six-inch';
+    String noteForDisplay = _notesController.text.isEmpty
+        ? 'No notes added.'
+        : _notesController.text;
 
     return Scaffold(
       appBar: AppBar(
@@ -121,7 +120,7 @@ class _OrderScreenState extends State<OrderScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             OrderItemDisplay(
-              quantity: _orderRepository.quantity,
+              quantity: _quantity,
               itemType: sandwichType,
               breadType: _selectedBreadType,
               orderNote: noteForDisplay,

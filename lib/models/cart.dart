@@ -15,6 +15,10 @@ class Cart {
     _sandwiches.remove(sandwich);
   }
 
+  void clear() {
+    _sandwiches.clear();
+  }
+
   double get totalPrice {
     double total = 0.0;
     // Group sandwiches by isFootlong for pricing
