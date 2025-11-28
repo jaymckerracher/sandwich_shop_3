@@ -9,19 +9,12 @@ class CartSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Items in cart: ${cart.sandwiches.length}', style: heading2),
-            Text('Total: £${cart.totalPrice.toStringAsFixed(2)}',
-                style: heading2),
-          ],
-        ),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('Items in cart: ${cart.sandwiches.length}', style: heading2),
+        Text('Total: £${cart.totalPrice.toStringAsFixed(2)}', style: heading2),
+      ],
     );
   }
 }
@@ -76,21 +69,17 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _addToCart() {
     if (_quantity > 0) {
-      final Sandwich sandwich = Sandwich(
+      final sandwich = Sandwich(
         type: _selectedSandwichType,
         isFootlong: _isFootlong,
         breadType: _selectedBreadType,
       );
-
       setState(() {
         _cart.addSandwich(sandwich, quantity: _quantity);
       });
-
-      String sizeText = _isFootlong ? 'footlong' : 'six-inch';
-      String confirmationMessage =
+      final sizeText = _isFootlong ? 'footlong' : 'six-inch';
+      final confirmationMessage =
           'Added $_quantity $sizeText ${sandwich.name} sandwich(es) on ${_selectedBreadType.name} bread to cart';
-
-      // Show confirmation message in the UI using SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(confirmationMessage),
@@ -199,7 +188,13 @@ class _OrderScreenState extends State<OrderScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CartSummary(cart: _cart),
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Material(
+                  color: Colors.transparent,
+                  child: CartSummary(cart: _cart),
+                ),
+              ),
               SizedBox(
                 height: 300,
                 child: Image.asset(
@@ -217,6 +212,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
               const SizedBox(height: 20),
               DropdownMenu<SandwichType>(
+                key: const Key('sandwichTypeDropdown'),
                 width: double.infinity,
                 label: const Text('Sandwich Type'),
                 textStyle: normalText,
@@ -263,6 +259,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
               const SizedBox(height: 20),
               StyledButton(
+                key: const Key('addToCartButton'),
                 onPressed: _getAddToCartCallback(),
                 icon: Icons.add_shopping_cart,
                 label: 'Add to Cart',
