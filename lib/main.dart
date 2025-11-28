@@ -3,6 +3,29 @@ import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/models/cart.dart';
 
+class CartSummary extends StatelessWidget {
+  final Cart cart;
+  const CartSummary({super.key, required this.cart});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Items in cart: ${cart.sandwiches.length}', style: heading2),
+            Text('Total: £${cart.totalPrice.toStringAsFixed(2)}',
+                style: heading2),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 void main() {
   runApp(const App());
 }
@@ -63,16 +86,17 @@ class _OrderScreenState extends State<OrderScreen> {
         _cart.addSandwich(sandwich, quantity: _quantity);
       });
 
-      String sizeText;
-      if (_isFootlong) {
-        sizeText = 'footlong';
-      } else {
-        sizeText = 'six-inch';
-      }
+      String sizeText = _isFootlong ? 'footlong' : 'six-inch';
       String confirmationMessage =
           'Added $_quantity $sizeText ${sandwich.name} sandwich(es) on ${_selectedBreadType.name} bread to cart';
 
-      debugPrint(confirmationMessage);
+      // Show confirmation message in the UI using SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(confirmationMessage),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     }
   }
 
@@ -175,6 +199,7 @@ class _OrderScreenState extends State<OrderScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              CartSummary(cart: _cart),
               SizedBox(
                 height: 300,
                 child: Image.asset(
