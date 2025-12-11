@@ -12,7 +12,7 @@ void main() {
         (WidgetTester tester) async {
       final Cart emptyCart = Cart();
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: emptyCart,
           child: const CartScreen(),
         ),
@@ -36,7 +36,7 @@ void main() {
       cart.add(sandwich, quantity: 2);
 
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: cart,
           child: const CartScreen(),
         ),
@@ -69,7 +69,7 @@ void main() {
       cart.add(sandwich2, quantity: 3);
 
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: cart,
           child: const CartScreen(),
         ),
@@ -97,7 +97,7 @@ void main() {
       cart.add(sandwich, quantity: 1);
 
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: cart,
           child: const CartScreen(),
         ),
@@ -112,7 +112,7 @@ void main() {
         (WidgetTester tester) async {
       final Cart emptyCart = Cart();
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: emptyCart,
           child: const CartScreen(),
         ),
@@ -134,7 +134,7 @@ void main() {
       cart.add(sandwich, quantity: 1);
 
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: cart,
           child: const CartScreen(),
         ),
@@ -163,7 +163,7 @@ void main() {
       cart.add(sandwich, quantity: 2);
 
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: cart,
           child: const CartScreen(),
         ),
@@ -192,7 +192,7 @@ void main() {
       cart.add(sandwich, quantity: 2);
 
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: cart,
           child: const CartScreen(),
         ),
@@ -214,7 +214,7 @@ void main() {
     testWidgets('back button navigates back', (WidgetTester tester) async {
       final Cart cart = Cart();
       final MaterialApp app = MaterialApp(
-        home: Provider<Cart>.value(
+        home: ChangeNotifierProvider<Cart>.value(
           value: cart,
           child: const CartScreen(),
         ),
