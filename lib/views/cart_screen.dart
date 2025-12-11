@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
+import 'package:sandwich_shop/views/common_widgets/app_bar.dart';
 import 'package:sandwich_shop/views/order_screen.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
@@ -106,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: SandwichAppBar(
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
@@ -114,10 +115,8 @@ class _CartScreenState extends State<CartScreen> {
             child: Image.asset('assets/images/logo.png'),
           ),
         ),
-        title: const Text(
-          'Cart View',
-          style: heading1,
-        ),
+        title: 'Cart View',
+        titleStyle: heading1,
         actions: [
           Consumer<Cart>(
             builder: (context, cart, child) {

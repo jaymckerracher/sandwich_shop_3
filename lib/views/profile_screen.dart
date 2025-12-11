@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/models/cart.dart';
+import 'package:sandwich_shop/views/common_widgets/app_bar.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -55,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: SandwichAppBar(
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
@@ -63,10 +64,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Image.asset('assets/images/logo.png'),
           ),
         ),
-        title: const Text(
-          'Profile',
-          style: heading1,
-        ),
+        title: 'Profile',
+        titleStyle: heading1,
         actions: [
           Consumer<Cart>(
             builder: (context, cart, child) {

@@ -4,6 +4,7 @@ import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/repositories/pricing_repository.dart';
+import 'package:sandwich_shop/views/common_widgets/app_bar.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -48,7 +49,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: SandwichAppBar(
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
@@ -56,7 +57,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             child: Image.asset('assets/images/logo.png'),
           ),
         ),
-        title: const Text('Checkout', style: heading1),
+        title: 'Checkout',
+        titleStyle: heading1,
         actions: [
           Consumer<Cart>(
             builder: (context, cart, child) {
