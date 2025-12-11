@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/views/common_widgets/app_bar.dart';
+import 'package:sandwich_shop/views/common_widgets/cart_indicator.dart';
 import 'package:sandwich_shop/views/cart_screen.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
@@ -163,21 +164,10 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
         title: 'Sandwich Counter',
         titleStyle: heading1,
-        actions: [
-          Consumer<Cart>(
-            builder: (context, cart, child) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.shopping_cart),
-                    const SizedBox(width: 4),
-                    Text('${cart.countOfItems}'),
-                  ],
-                ),
-              );
-            },
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: CartIndicator(),
           ),
         ],
       ),
