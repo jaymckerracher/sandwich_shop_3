@@ -54,7 +54,38 @@ git fetch origin
 git checkout 8
 ```
 
-## Run the app
+
+## Run the app on a real iPhone
+
+You can run the app on your own iPhone using a free Apple ID for development purposes:
+
+1. Open the project in Xcode (`ios/Runner.xcworkspace`).
+2. Connect your iPhone to your Mac.
+3. In Xcode, select your device as the build target.
+4. Go to the Runner target > Signing & Capabilities, select your Apple ID/team, and let Xcode manage signing.
+5. Build and run the app on your device. You may need to trust the developer profile in your iPhone's Settings > General > Device Management.
+
+**Note:** With a free Apple ID, the app can only be installed on your device, and you may need to re-sign it every 7 days. This does not allow distribution to other users or the App Store.
+
+## Creating a release build (iOS)
+
+You can create a release build using:
+
+```bash
+flutter clean
+flutter pub get
+flutter build ios --release
+```
+
+This generates a release build in `build/ios/iphoneos/Runner.app`.
+
+**Limitations:**
+
+- Without a paid Apple Developer account, you cannot create a signed IPA for distribution or upload to the App Store/TestFlight.
+- The release build cannot be installed on real devices or distributed to others.
+- You can still provide screenshots or the build artifact as evidence for coursework.
+
+## Run the app normally
 
 Open the integrated terminal in Visual Studio Code by first opening the Command
 Palette with **⌘ + Shift + P** (macOS) or **Ctrl + Shift + P** (Windows) and
