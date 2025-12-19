@@ -135,6 +135,65 @@ void main() {
       expect(find.text('Cart: 0 items - £0.00'), findsOneWidget);
     });
 
-    // Feel free to add more tests (e.g., to check saved orders, etc.)
+    testWidgets('profile update validation and success',
+        (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      // Go to Profile screen
+      final profileButton = find.widgetWithText(StyledButton, 'Profile');
+      await tester.ensureVisible(profileButton);
+      await tester.tap(profileButton);
+      await tester.pumpAndSettle();
+
+      // Try to save with empty fields
+      final saveButton = find.widgetWithText(ElevatedButton, 'Save Profile');
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+      expect(find.text('Please fill in all fields'), findsOneWidget);
+
+      // Enter valid data and save
+      await tester.enterText(find.byType(TextField).at(0), 'Test User');
+      await tester.enterText(find.byType(TextField).at(1), 'Test Location');
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+
+      // Should return to order screen and show welcome message
+      expect(find.textContaining('Welcome, Test User!'), findsOneWidget);
+    });
+
+    testWidgets('remove item not in cart does nothing',
+        (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      // Go to cart (should be empty)
+      final viewCartButton = find.widgetWithText(StyledButton, 'View Cart');
+      await tester.ensureVisible(viewCartButton);
+      await tester.tap(viewCartButton);
+      await tester.pumpAndSettle();
+
+      // Try to find a delete button (should not exist)
+      final deleteButton = find.byIcon(Icons.delete);
+      expect(deleteButton, findsNothing);
+    });
+
+    testWidgets('checkout with empty cart shows error',
+        (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      // Go to cart (should be empty)
+      final viewCartButton = find.widgetWithText(StyledButton, 'View Cart');
+      await tester.ensureVisible(viewCartButton);
+      await tester.tap(viewCartButton);
+      await tester.pumpAndSettle();
+
+      // Try to find and tap the Checkout button (should not exist)
+      final checkoutButton = find.widgetWithText(StyledButton, 'Checkout');
+      expect(checkoutButton, findsNothing);
+      // Optionally, check for empty cart message
+      expect(find.textContaining('empty'), findsOneWidget);
+    });
   });
 }
