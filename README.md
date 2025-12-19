@@ -79,6 +79,8 @@ flutter build ios --release
 
 This generates a release build in `build/ios/iphoneos/Runner.app`.
 
+![alt text](image.png)
+
 **Limitations:**
 
 - Without a paid Apple Developer account, you cannot create a signed IPA for distribution or upload to the App Store/TestFlight.
