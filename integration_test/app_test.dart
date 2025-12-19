@@ -195,5 +195,89 @@ void main() {
       // Optionally, check for empty cart message
       expect(find.textContaining('empty'), findsOneWidget);
     });
+
+    // Edge case: Add multiple different sandwiches and verify cart
+    testWidgets('add multiple different sandwiches and verify cart',
+        (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      // Add first sandwich (Veggie Delight)
+      final addToCartButton = find.widgetWithText(StyledButton, 'Add to Cart');
+      await tester.ensureVisible(addToCartButton);
+      await tester.tap(addToCartButton);
+      await tester.pumpAndSettle();
+
+      // Change sandwich type
+      final sandwichDropdown = find.byType(DropdownMenu<SandwichType>);
+      await tester.tap(sandwichDropdown);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Chicken Teriyaki').last);
+      await tester.pumpAndSettle();
+
+      // Add second sandwich
+      await tester.tap(addToCartButton);
+      await tester.pumpAndSettle();
+
+      // Go to cart
+      final viewCartButton = find.widgetWithText(StyledButton, 'View Cart');
+      await tester.ensureVisible(viewCartButton);
+      await tester.tap(viewCartButton);
+      await tester.pumpAndSettle();
+
+      // Verify both sandwiches are in the cart
+      expect(find.text('Veggie Delight'), findsOneWidget);
+      expect(find.text('Chicken Teriyaki'), findsOneWidget);
+      // Check total (assuming both are £11.00)
+      expect(find.text('Total: £22.00'), findsOneWidget);
+    });
+
+    // Happy path: Remove item from cart and verify cart is empty
+    testWidgets('remove item from cart and verify cart is empty',
+        (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      // Add a sandwich to the cart
+      final addToCartButton = find.widgetWithText(StyledButton, 'Add to Cart');
+      await tester.ensureVisible(addToCartButton);
+      await tester.tap(addToCartButton);
+      await tester.pumpAndSettle();
+
+      // Go to cart
+      final viewCartButton = find.widgetWithText(StyledButton, 'View Cart');
+      await tester.ensureVisible(viewCartButton);
+      await tester.tap(viewCartButton);
+      await tester.pumpAndSettle();
+
+      // Remove the item (assume a delete button exists)
+      final deleteButton = find.byIcon(Icons.delete);
+      await tester.tap(deleteButton);
+      await tester.pumpAndSettle();
+
+      // Cart should be empty
+      expect(find.textContaining('empty'), findsOneWidget);
+      expect(find.text('Total: £0.00'), findsOneWidget);
+    });
+
+    // Error case: Try to add to cart with zero quantity
+    testWidgets('cannot add to cart with zero quantity',
+        (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle();
+
+      // Decrease quantity to zero
+      final removeButton = find.byIcon(Icons.remove);
+      for (int i = 0; i < 2; i++) {
+        await tester.tap(removeButton);
+        await tester.pumpAndSettle();
+      }
+      // Quantity should be zero (may appear in multiple widgets)
+      expect(find.text('0'), findsWidgets);
+
+      // Add to Cart button should be disabled
+      final addToCartButton = find.widgetWithText(StyledButton, 'Add to Cart');
+      expect(tester.widget<StyledButton>(addToCartButton).onPressed, isNull);
+    });
   });
 }
