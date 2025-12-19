@@ -99,6 +99,32 @@ flutter pub get
 flutter run
 ```
 
+
+## Testing
+
+You can test the app using Flutter's built-in testing tools:
+
+- **Widget and unit tests:**
+
+    Run all widget and unit tests in the `test/` directory with:
+    ```bash
+    flutter test
+    ```
+
+- **Integration tests:**
+
+    Run integration tests in the `integration_test/` directory on an emulator, simulator, or real device with:
+    ```bash
+    flutter test integration_test
+    ```
+    Or, to run on a real iPhone:
+    1. Connect your device and trust your developer profile.
+    2. Run:
+         ```bash
+         flutter test integration_test/
+         ```
+    (You may need to create a `test_driver/integration_test.dart` file if it does not exist.)
+
 ## Get support
 
 Use [the dedicated Discord channel](https://discord.com/channels/760155974467059762/1370633732779933806)
